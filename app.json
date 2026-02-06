@@ -4,6 +4,7 @@
         "slug": "meal-alarm-cute",
         "version": "1.0.0",
         "orientation": "portrait",
+        "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
         "splash": {
             "image": "./assets/splash.png",
@@ -14,16 +15,28 @@
             "**/*"
         ],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "com.batunash.mealalarm"
         },
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#FFD1DC"
-            }
+            },
+            "package": "com.batunash.mealalarm"
         },
         "web": {
             "favicon": "./assets/favicon.png"
-        }
+        },
+        "plugins": [
+            [
+                "expo-notifications",
+                {
+                    "icon": "./assets/icon.png",
+                    "color": "#FFD1DC",
+                    "sounds": []
+                }
+            ]
+        ]
     }
 }

@@ -1,12 +1,12 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-// Configure notification handler
+// Bildirim işleyicisi yapılandırması
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
-        shouldShowAlert: true, // Deprecated but might be needed for older versions
-        shouldShowBanner: true, // New standard
-        shouldShowList: true,   // New standard
+        shouldShowAlert: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
         shouldPlaySound: true,
         shouldSetBadge: false,
     }),
@@ -22,19 +22,29 @@ export const requestPermissions = async () => {
             finalStatus = status;
         }
 
+        // Android için bildirim kanalı oluşturma (SDK 52/53 için gereklidir)
+        if (Platform.OS === 'android') {
+            await Notifications.setNotificationChannelAsync('default', {
+                name: 'default',
+                importance: Notifications.AndroidImportance.MAX,
+                vibrationPattern: [0, 250, 250, 250],
+                lightColor: '#FF231F7C',
+            });
+        }
+
         return finalStatus === 'granted';
     } catch (e) {
-        console.warn("Permission Error:", e);
+        console.warn("İzin Hatası:", e);
         return false;
     }
 };
 
 export const scheduleMealNotifications = async (wakeUpTimeStr) => {
-    // Cancel all existing notifications first
+    // Mevcut tüm bildirimleri temizle
     try {
         await Notifications.cancelAllScheduledNotificationsAsync();
     } catch (e) {
-        console.warn("Cancel Error:", e);
+        console.warn("Temizleme Hatası:", e);
     }
 
     const [hours, minutes] = wakeUpTimeStr.split(':').map(Number);
@@ -58,7 +68,7 @@ export const scheduleMealNotifications = async (wakeUpTimeStr) => {
         let sadId = null;
 
         try {
-            // Schedule Reminder
+            // Hatırlatıcı Planla
             if (mealTime > now) {
                 const diffSeconds = Math.floor((mealTime.getTime() - now.getTime()) / 1000);
                 if (diffSeconds > 0) {
@@ -68,16 +78,20 @@ export const scheduleMealNotifications = async (wakeUpTimeStr) => {
                             body: `Sağlıklı beslenmeyi unutma! 🌸`,
                             sound: true,
                         },
-                        trigger: { seconds: diffSeconds },
+                        trigger: {
+                            type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+                            seconds: diffSeconds,
+                            repeats: false
+                        },
                     });
                 }
             }
         } catch (e) {
-            console.warn("Schedule Error (Reminder):", e);
+            console.warn("Planlama Hatası (Hatırlatıcı):", e);
         }
 
         try {
-            // Schedule Sad Follow-up
+            // "Yemedin mi?" Bildirimi Planla
             if (sadTime > now) {
                 const diffSeconds = Math.floor((sadTime.getTime() - now.getTime()) / 1000);
                 if (diffSeconds > 0) {
@@ -87,15 +101,18 @@ export const scheduleMealNotifications = async (wakeUpTimeStr) => {
                             body: `Sanırım ${meal.name} yemedin... Lütfen kendine iyi bak.`,
                             sound: true,
                         },
-                        trigger: { seconds: diffSeconds },
+                        trigger: {
+                            type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+                            seconds: diffSeconds,
+                            repeats: false
+                        },
                     });
                 }
             }
         } catch (e) {
-            console.warn("Schedule Error (Sad):", e);
+            console.warn("Planlama Hatası (Üzüntü):", e);
         }
 
-        // Always add to scheduleInfo so UI shows the item
         scheduleInfo[meal.id] = {
             name: meal.name,
             time: mealTime.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
@@ -103,14 +120,11 @@ export const scheduleMealNotifications = async (wakeUpTimeStr) => {
         };
     }
 
-    // Schedule simple water reminders (starting 1 hour after wake up, every 2 hours, for 8 hours)
     await scheduleWaterReminders(wakeUpDate);
-
     return scheduleInfo;
 };
 
 export const scheduleWaterReminders = async (wakeUpDate) => {
-    // 4 reminders: Wake+2h, Wake+4h, Wake+6h, Wake+8h
     const intervals = [2, 4, 6, 8];
     const now = new Date();
 
@@ -123,12 +137,16 @@ export const scheduleWaterReminders = async (wakeUpDate) => {
                     await Notifications.scheduleNotificationAsync({
                         content: {
                             title: `Su Vakti! 💧`,
-                            body: `Kendine bir bardak su sula! 🌊`,
+                            body: `Kendine bir bardak su ısmarla! 🌊`,
                             sound: true,
                         },
-                        trigger: { seconds: diffSeconds },
+                        trigger: {
+                            type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+                            seconds: diffSeconds,
+                            repeats: false
+                        },
                     });
-                } catch (e) { /* ignore */ }
+                } catch (e) { /* yoksay */ }
             }
         }
     }
@@ -139,7 +157,7 @@ export const cancelSadNotification = async (sadNotificationId) => {
         try {
             await Notifications.cancelScheduledNotificationAsync(sadNotificationId);
         } catch (e) {
-            console.warn("Cancel Sad Error:", e);
+            console.warn("Üzüntü Bildirimi İptal Hatası:", e);
         }
     }
 };
