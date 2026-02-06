@@ -1,0 +1,172 @@
+:root {
+    --primary-pink: #FFD1DC;
+    --dark-pink: #FF9EAA;
+    --text-color: #555;
+    --bg-color: #FFF5F7;
+    --card-bg: #FFFFFF;
+    --mint-green: #C1E1C1;
+    --shadow: 0 4px 15px rgba(255, 158, 170, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 400px;
+    background: transparent;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--dark-pink);
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: #888;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+}
+
+.cute-input {
+    border: 2px solid var(--primary-pink);
+    border-radius: 15px;
+    padding: 15px;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--text-color);
+    font-family: 'Quicksand', sans-serif;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.cute-input:focus {
+    border-color: var(--dark-pink);
+    box-shadow: 0 0 8px var(--primary-pink);
+}
+
+.cute-btn {
+    background-color: var(--dark-pink);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cute-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 158, 170, 0.4);
+}
+
+.cute-btn:active {
+    transform: scale(0.98);
+}
+
+.hidden {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#scheduleSection h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--dark-pink);
+}
+
+.meal-card {
+    background: var(--card-bg);
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s;
+}
+
+.meal-card:hover {
+    transform: scale(1.02);
+}
+
+.emoji {
+    font-size: 2.5rem;
+    background: var(--bg-color);
+    padding: 10px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.meal-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.meal-info p {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--dark-pink);
+}
+
+.secondary-btn {
+    background-color: var(--mint-green);
+    color: #446644;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: 'Quicksand', sans-serif;
+    transition: opacity 0.3s;
+}
+
+.secondary-btn:hover {
+    opacity: 0.9;
+}

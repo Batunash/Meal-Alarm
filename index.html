@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yemek Alarmı 🌸</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD1DC">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Günaydın! ☀️</h1>
+            <p>Bugün saat kaçta uyandın?</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <input type="time" id="wakeUpTime" class="cute-input">
+                <button id="saveBtn" class="cute-btn">Kaydet & Planla 💖</button>
+            </div>
+
+            <div id="scheduleSection" class="hidden">
+                <h2>Bugünün Yemek Planı 🍽️</h2>
+                <div class="meal-card" id="breakfastCard">
+                    <span class="emoji">🥞</span>
+                    <div class="meal-info">
+                        <h3>Kahvaltı</h3>
+                        <p id="breakfastTime">--:--</p>
+                    </div>
+                </div>
+                <div class="meal-card" id="lunchCard">
+                    <span class="emoji">🥗</span>
+                    <div class="meal-info">
+                        <h3>Öğle Yemeği</h3>
+                        <p id="lunchTime">--:--</p>
+                    </div>
+                </div>
+                <div class="meal-card" id="dinnerCard">
+                    <span class="emoji">🍝</span>
+                    <div class="meal-info">
+                        <h3>Akşam Yemeği</h3>
+                        <p id="dinnerTime">--:--</p>
+                    </div>
+                </div>
+                
+                <button id="enableNotifsBtn" class="secondary-btn">Hatırlatıcıları Aç 🔔</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="storage.js"></script>
+    <script src="logic.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
